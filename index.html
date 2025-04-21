@@ -1,70 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mid-South Truck & Trailer Services</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mid-South Truck & Trailer Service</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts for Montserrat and Open Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;400i&display=swap" rel="stylesheet">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-100 font-sans">
-  <!-- Header -->
-  <header class="bg-blue-900 text-white py-6">
-    <div class="container mx-auto px-4 text-center">
-      <h1 class="text-4xl font-bold">Mid-South Truck & Trailer Services</h1>
-      <p class="mt-2 text-lg">Professional Truck Wash & Trailer Services in Hoxie, AR</p>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="bg-white py-12">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="text-3xl font-semibold text-gray-800 mb-4">Welcome to Our Services</h2>
-      <p class="text-lg text-gray-600 mb-6">
-        At Mid-South Truck & Trailer Services, we provide top-quality truck washing, trailer washouts, and preventive maintenance services to keep your fleet in prime condition.
-      </p>
-      <img src="MidSouthOfficialLogo.JPEG" alt="Mid-South Truck & Trailer Services Logo" class="mx-auto h-32 w-auto mb-6">
-      <a href="#contact" class="inline-block bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700">Contact Us</a>
-    </div>
-  </section>
-
-  <!-- Services Section -->
-  <section class="bg-gray-100 py-12">
-    <div class="container mx-auto px-4">
-      <h2 class="text-3xl font-semibold text-gray-800 text-center mb-8">Our Services</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white p-6 rounded-lg shadow-md text-center">
-          <h3 class="text-xl font-bold text-gray-800 mb-2">Truck Wash</h3>
-          <p class="text-gray-600">Thorough cleaning for your trucks to maintain a professional appearance and extend vehicle life.</p>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="header-content">
+            <!-- Replace 'images/logo.png' with the path to your logo -->
+            <img src="images/logo.png" alt="Mid-South Truck & Trailer Service Logo" class="logo">
+            <h1 class="tagline">On-Site Truck Maintenance & Cleaning – Keep Your Fleet Rolling!</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <a href="tel:+18706372093" class="cta-button">Call Now: 870-637-2093</a>
         </div>
-        <div class="bg-white p-6 rounded-lg shadow-md text-center">
-          <h3 class="text-xl font-bold text-gray-800 mb-2">Trailer Washout</h3>
-          <p class="text-gray-600">Comprehensive trailer cleaning to meet hygiene standards and ensure cargo safety.</p>
-        </div>
-        <div class="bg-white p-6 rounded-lg shadow-md text-center">
-          <h3 class="text-xl font-bold text-gray-800 mb-2">PM Services</h3>
-          <p class="text-gray-600">Preventive maintenance including oil changes, inspections, and more to keep your fleet running smoothly.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </header>
 
-  <!-- Contact Section -->
-  <section id="contact" class="bg-blue-900 text-white py-12">
-    <div class="container mx-auto px-4 text-center">
-      <h2 class="text-3xl font-semibold mb-4">Get in Touch</h2>
-      <p class="text-lg mb-6">Ready to schedule a service? Contact us today!</p>
-      <p class="mb-2"><strong>Address:</strong> 406 SW Texas, Hoxie, AR 72433</p>
-      <p class="mb-2"><strong>Phone:</strong> (870) 637-2093</p>
-      <p class="mb-6"><strong>Email:</strong> midsouthtruckandtrailer@gmail.com</p>
-      <p class="text-sm"></p>
-    </div>
-  </section>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h2>Welcome to Mid-South Truck & Trailer Service</h2>
+        <h3>Your trusted partner for on-site truck maintenance, inspections, and cleaning in Hoxie, AR.</h3>
+        <p>At Mid-South, we bring our services to you! From preventative maintenance and oil changes to truck washes and trailer wash outs, we keep your fleet in top shape. Located at 406 SW Texas, Hoxie, AR, 72433, we’re here to serve you – even on holidays and weekends.</p>
+        <a href="#services" class="cta-button">Explore Our Services</a>
+    </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-4">
-    <div class="container mx-auto px-4 text-center">
-      <p>&copy; 2025 Mid-South Truck & Trailer Services. All rights reserved.</p>
-    </div>
-  </footer>
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <h2>Our Services</h2>
+        <div class="services-grid">
+            <div class="service-item">
+                <i class="fas fa-wrench fa-2x"></i>
+                <h3>On-Site Preventative Maintenance</h3>
+                <p>We offer daily trailer inspections, including annual inspections, TempTrans oil changes, fluid leak checks, and tire quality/pressure assessments. No minimum hourly rate!</p>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-shower fa-2x"></i>
+                <h3>Truck Wash & Trailer Wash Out</h3>
+                <p>Keep your truck and trailer spotless with our professional cleaning services. Contact us for pricing!</p>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-oil-can fa-2x"></i>
+                <h3>Oil Changes</h3>
+                <p>Full oil change services, including filter kits and labor. We ensure your engine runs smoothly.</p>
+            </div>
+            <div class="service-item">
+                <i class="fas fa-tire fa-2x"></i>
+                <h3>Tire Services</h3>
+                <p>Tire quality and pressure checks included in inspections. Additional tire services available – call for details!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <h2>Pricing</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>General Labor</td>
+                    <td>$175/hour</td>
+                </tr>
+                <tr>
+                    <td>Travel to Get Parts</td>
+                    <td>$100/hour</td>
+                </tr>
+                <tr>
+                    <td>Holiday/Weekend Inspections</td>
+                    <td>$175 (flat rate)</td>
+                </tr>
+                <tr>
+                    <td>Daily Trailer Inspections</td>
+                    <td>No minimum hourly rate</td>
+                </tr>
+                <tr>
+                    <td>Oil Changes</td>
+                    <td>$175/hour (labor) + filter kits (call for pricing)</td>
+                </tr>
+                <tr>
+                    <td>Truck Wash & Trailer Wash Out</td>
+                    <td>Contact for pricing</td>
+                </tr>
+                <tr>
+                    <td>Tire Services</td>
+                    <td>Contact for pricing</td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="note">*All prices are subject to change. Contact us for a detailed quote!</p>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2>Get in Touch</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <p><strong>Address:</strong> 406 SW Texas, Hoxie, AR, 72433</p>
+                <p><strong>Phone:</strong> 870-637-2093</p>
+                <p><strong>Email:</strong> <a href="mailto:jody@midsouthtruckandtrailer.net">jody@midsouthtruckandtrailer.net</a></p>
+            </div>
+            <form>
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="tel" name="phone" placeholder="Phone" required>
+                <textarea name="message" placeholder="Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+        <!-- Replace with an actual Google Maps embed -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3225.8222827791633!2d-90.97877642473239!3d36.04904290968243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87d6a37b9691585b%3A0x26d47ca8cac40215!2s406%20SW%20Texas%20St%2C%20Hoxie%2C%20AR%2072433!5e0!3m2!1sen!2sus!4v1745265280927!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <img src="images/logo.png" alt="Mid-South Truck & Trailer Service Logo" class="footer-logo">
+        <p>© 2025 Mid-South Truck & Trailer Service. All rights reserved.</p>
+    </footer>
 </body>
 </html>
