@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EOS Yard Check</title>
+  <script defer src="yard_check.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f7f7f7;
+      padding: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+    }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #2c7be5;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1a5dc9;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="login-section">
+      <h2>Enter 4-Digit PIN</h2>
+      <input type="password" id="pin-input" maxlength="4" placeholder="Enter PIN" />
+      <button onclick="verifyPin()">Submit</button>
+    </div>
+
+    <div id="form-section" class="hidden">
+      <h2>EOS Yard Check - Hello <span id="username"></span></h2>
+
+      <label for="location">Location</label>
+      <select id="yard-location" onchange="updateLocationOptions()">
+        <option value="">-- Select --</option>
+        <option value="Pocahontas">Pocahontas</option>
+        <option value="Batesville">Batesville</option>
+      </select>
+
+      <div id="sub-location-group" class="hidden">
+        <label for="sub-location">Specific Location</label>
+        <select id="sub-location"></select>
+      </div>
+
+      <label for="trailer">Trailer Number</label>
+      <input type="text" id="trailer-number" />
+
+      <label for="load-status">Loaded or Empty?</label>
+      <select id="load-status">
+        <option value="Loaded">Loaded</option>
+        <option value="Empty">Empty</option>
+      </select>
+
+      <label for="fuel">Fuel Level</label>
+      <select id="fuel">
+        <option value="Empty">Empty</option>
+        <option value="1/4">1/4</option>
+        <option value="1/2">1/2</option>
+        <option value="3/4">3/4</option>
+        <option value="Full">Full</option>
+      </select>
+
+      <label for="temperature">Trailer Temperature (°F)</label>
+      <input type="number" id="temperature" />
+
+      <label for="washout">Trailer Wash Out?</label>
+      <select id="washout">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+
+      <label for="notes">Notes / Issues to Report</label>
+      <textarea id="notes" rows="4" placeholder="Note flats, brake issues, greasing, etc. and message Darrell in Cliq with photos!"></textarea>
+
+      <button onclick="submitTrailerEntry()">Submit This Trailer</button>
+    </div>
+
+    <div id="confirmation-section" class="hidden">
+      <h2>Review Entry</h2>
+      <div id="entry-summary"></div>
+      <p>Is this information correct?</p>
+      <button onclick="confirmEntry(true)">Yes</button>
+      <button onclick="confirmEntry(false)">No</button>
+    </div>
+
+    <div id="more-trailers-section" class="hidden">
+      <p>Are there any more trailers to enter?</p>
+      <button onclick="handleMore(true)">Yes</button>
+      <button onclick="handleMore(false)">No</button>
+    </div>
+
+    <div id="final-section" class="hidden">
+      <h2>Daily Yard Check Complete!</h2>
+      <p>Would you like a copy of your yard check emailed to you?</p>
+      <button onclick="sendCopy(true)">Yes</button>
+      <button onclick="sendCopy(false)">No</button>
+    </div>
+  </div>
+</body>
+</html>
