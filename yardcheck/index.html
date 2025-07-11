@@ -1,126 +1,217 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EOS Yard Check</title>
-  <script defer src="yard_check.js"></script>
+  <title>Yard Check Form - Official SDK</title>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   <style>
-    body {
-      font-family: sans-serif;
-      background-color: #f7f7f7;
-      padding: 20px;
-    }
-    .hidden {
-      display: none;
-    }
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      max-width: 600px;
-      margin: auto;
-    }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
-    }
-    input, select, textarea, button {
-      width: 100%;
-      padding: 8px;
-      margin-top: 5px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-    }
-    button {
-      background-color: #2c7be5;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #1a5dc9;
-    }
+    body { font-family: sans-serif; padding: 1rem; }
+    label { display: block; margin-top: 1rem; }
+    input, select, textarea, button { width: 100%; padding: 0.5rem; margin-top: 0.25rem; }
+    .readonly { background-color: #f0f0f0; }
+    #yardCheckForm { display: none; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div id="login-section">
-      <h2>Enter 4-Digit PIN</h2>
-      <input type="password" id="pin-input" maxlength="4" placeholder="Enter PIN" />
-      <button onclick="verifyPin()">Submit</button>
-    </div>
+  <h2>Technician Login</h2>
+  <form id="pinForm">
+    <label>Enter 4-Digit PIN:
+      <input type="text" id="pin" pattern="\d{4}" required />
+    </label>
+    <button type="submit">Continue</button>
+  </form>
 
-    <div id="form-section" class="hidden">
-      <h2>EOS Yard Check - Hello <span id="username"></span></h2>
+  <div id="greeting" style="font-weight: bold; margin-top: 1rem;"></div>
 
-      <label for="location">Location</label>
-      <select id="yard-location" onchange="updateLocationOptions()">
-        <option value="">-- Select --</option>
-        <option value="Pocahontas">Pocahontas</option>
-        <option value="Batesville">Batesville</option>
+  <form id="yardCheckForm">
+    <input type="hidden" name="tech_name" id="tech_name" />
+
+    <label>Trailer Number (numbers only):
+      <input type="tel" id="trailer_number" inputmode="numeric" pattern="\d+" required />
+    </label>
+
+    <label>Washed Out?
+      <select id="washed_out">
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
       </select>
+    </label>
 
-      <div id="sub-location-group" class="hidden">
-        <label for="sub-location">Specific Location</label>
-        <select id="sub-location"></select>
-      </div>
-
-      <label for="trailer">Trailer Number</label>
-      <input type="text" id="trailer-number" />
-
-      <label for="load-status">Loaded or Empty?</label>
-      <select id="load-status">
-        <option value="Loaded">Loaded</option>
-        <option value="Empty">Empty</option>
+    <label>Greased?
+      <select id="greased">
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
       </select>
+    </label>
 
-      <label for="fuel">Fuel Level</label>
-      <select id="fuel">
+    <label>Brake Adjustment Needed?
+      <select id="brake_adj">
+        <option value="No">No</option>
+        <option value="Yes">Yes</option>
+      </select>
+    </label>
+
+    <label>Fuel Level:
+      <select id="fuel_level">
         <option value="Empty">Empty</option>
         <option value="1/4">1/4</option>
         <option value="1/2">1/2</option>
         <option value="3/4">3/4</option>
         <option value="Full">Full</option>
       </select>
+    </label>
 
-      <label for="temperature">Trailer Temperature (°F)</label>
-      <input type="number" id="temperature" />
-
-      <label for="washout">Trailer Wash Out?</label>
-      <select id="washout">
-        <option value="No">No</option>
-        <option value="Yes">Yes</option>
+    <label>Load Status:
+      <select id="load_status">
+        <option value="Loaded">Loaded</option>
+        <option value="Empty">Empty</option>
       </select>
+    </label>
 
-      <label for="notes">Notes / Issues to Report</label>
-      <textarea id="notes" rows="4" placeholder="Note flats, brake issues, greasing, etc. and message Darrell in Cliq with photos!"></textarea>
+    <label>Reefer Temperature (°F):
+      <input type="text" id="temperature" placeholder="e.g., 34" />
+    </label>
 
-      <button onclick="submitTrailerEntry()">Submit This Trailer</button>
-    </div>
+    <label>Optional Notes:
+      <textarea id="notes" rows="3" placeholder="e.g., Flat tire on passenger side..."></textarea>
+    </label>
 
-    <div id="confirmation-section" class="hidden">
-      <h2>Review Entry</h2>
-      <div id="entry-summary"></div>
-      <p>Is this information correct?</p>
-      <button onclick="confirmEntry(true)">Yes</button>
-      <button onclick="confirmEntry(false)">No</button>
-    </div>
+    <label>Timestamp:
+      <input type="text" id="timestamp" readonly class="readonly" />
+    </label>
 
-    <div id="more-trailers-section" class="hidden">
-      <p>Are there any more trailers to enter?</p>
-      <button onclick="handleMore(true)">Yes</button>
-      <button onclick="handleMore(false)">No</button>
-    </div>
+    <label>GPS Location (Lat, Lon):
+      <input type="text" id="location" readonly class="readonly" />
+    </label>
 
-    <div id="final-section" class="hidden">
-      <h2>Daily Yard Check Complete!</h2>
-      <p>Would you like a copy of your yard check emailed to you?</p>
-      <button onclick="sendCopy(true)">Yes</button>
-      <button onclick="sendCopy(false)">No</button>
-    </div>
-  </div>
+    <button type="button" id="addTrailer">Add Another Trailer</button>
+    <button type="submit">Submit All</button>
+  </form>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      emailjs.init("mbY5vWj9jWkqzabP6");
+
+      const pinMap = {
+        "6969": { name: "Jody", greeting: "Hey Jody, Darrell needs a raise, just sayin - ChatGPT" },
+        "0125": { name: "Debra", greeting: "Hello Debra" },
+        "2525": { name: "Corey", greeting: "Hello Corey" },
+        "1900": { name: "Darrell", greeting: "Hello Darrell" }
+      };
+
+      let trailerEntries = [];
+
+      const pinForm = document.getElementById("pinForm");
+      const pinInput = document.getElementById("pin");
+      const yardCheckForm = document.getElementById("yardCheckForm");
+      const techNameInput = document.getElementById("tech_name");
+      const greetingDiv = document.getElementById("greeting");
+      const timestampField = document.getElementById("timestamp");
+      const locationField = document.getElementById("location");
+
+      const now = new Date();
+      timestampField.value = now.toLocaleString();
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            locationField.value = `${position.coords.latitude}, ${position.coords.longitude}`;
+          },
+          () => {
+            locationField.value = "Permission denied or not available.";
+          }
+        );
+      }
+
+      pinForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const pin = pinInput.value;
+        if (pinMap[pin]) {
+          techNameInput.value = pinMap[pin].name;
+          greetingDiv.textContent = pinMap[pin].greeting;
+          yardCheckForm.style.display = "block";
+          pinForm.style.display = "none";
+        } else {
+          greetingDiv.textContent = "PIN not recognized.";
+        }
+      });
+
+      document.getElementById("addTrailer").addEventListener("click", () => {
+        const entry = {
+          trailer_number: document.getElementById("trailer_number").value,
+          washed_out: document.getElementById("washed_out").value,
+          greased: document.getElementById("greased").value,
+          brake_adj: document.getElementById("brake_adj").value,
+          fuel_level: document.getElementById("fuel_level").value,
+          load_status: document.getElementById("load_status").value,
+          temperature: document.getElementById("temperature").value,
+          notes: document.getElementById("notes").value
+        };
+
+        trailerEntries.push(entry);
+
+        document.getElementById("trailer_number").value = "";
+        document.getElementById("washed_out").value = "Yes";
+        document.getElementById("greased").value = "Yes";
+        document.getElementById("brake_adj").value = "No";
+        document.getElementById("fuel_level").value = "Empty";
+        document.getElementById("load_status").value = "Loaded";
+        document.getElementById("temperature").value = "";
+        document.getElementById("notes").value = "";
+
+        alert("Trailer added. Enter the next or submit all.");
+      });
+
+      yardCheckForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const finalEntry = {
+          trailer_number: document.getElementById("trailer_number").value,
+          washed_out: document.getElementById("washed_out").value,
+          greased: document.getElementById("greased").value,
+          brake_adj: document.getElementById("brake_adj").value,
+          fuel_level: document.getElementById("fuel_level").value,
+          load_status: document.getElementById("load_status").value,
+          temperature: document.getElementById("temperature").value,
+          notes: document.getElementById("notes").value
+        };
+
+        if (finalEntry.trailer_number !== "") {
+          trailerEntries.push(finalEntry);
+        }
+
+        const trailerSummary = trailerEntries.map((entry, index) => {
+          return `Trailer ${index + 1}:
+- Number: ${entry.trailer_number}
+- Washed Out: ${entry.washed_out}
+- Greased: ${entry.greased}
+- Brake Adjustment: ${entry.brake_adj}
+- Fuel Level: ${entry.fuel_level}
+- Load Status: ${entry.load_status}
+- Temperature: ${entry.temperature}
+- Notes: ${entry.notes || 'None'}`;
+        }).join("\n\n");
+
+        const emailParams = {
+          tech_name: techNameInput.value,
+          timestamp: timestampField.value,
+          location: locationField.value,
+          all_trailers: trailerSummary
+        };
+
+        emailjs.send("service_teoakrg", "template_3o0wfpn", emailParams)
+          .then(() => {
+            alert("All yard checks submitted successfully!");
+            yardCheckForm.reset();
+            trailerEntries = [];
+            location.reload();
+          }, (error) => {
+            alert("Error submitting form: " + error.text);
+          });
+      });
+    });
+  </script>
 </body>
 </html>
