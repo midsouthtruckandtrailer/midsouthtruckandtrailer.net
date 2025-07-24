@@ -137,3 +137,68 @@ input[type="submit"]:hover, .form-btn:hover {
     h1 {font-size: 1.6rem;}
     h2 {font-size: 1.18rem;}
 }
+@media (max-width: 900px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.5rem 1rem;
+    }
+    .header img.logo {
+        height: 40px;
+        margin-left: 0;
+        margin-bottom: 0.5rem;
+        max-width: 95vw;
+    }
+    .nav {
+        margin-right: 0;
+        width: 100%;
+        justify-content: flex-start;
+        gap: 1.1rem;
+        flex-wrap: wrap;
+    }
+    .hero img {
+        max-width: 98vw;
+    }
+    .section {
+        max-width: 98vw;
+    }
+    .price-table th, .price-table td {
+        padding: 0.6rem 0.3rem;
+        font-size: 0.98em;
+    }
+}
+
+@media (max-width: 650px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0.6rem 0.4rem;
+    }
+    .header img.logo {
+        height: 32px;
+        margin-left: 0;
+        margin-bottom: 0.7rem;
+        max-width: 96vw;
+    }
+    .nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+        margin-right: 0;
+        width: 100%;
+    }
+    .section, .hero {
+        padding: 0.6rem 0.2rem;
+        max-width: 98vw;
+    }
+    h1 {font-size: 1.1rem;}
+    h2 {font-size: 1rem;}
+    .footer {font-size: 0.93rem;}
+    .price-table {
+        font-size: 0.98em;
+    }
+    input, textarea {
+        font-size: 1rem;
+        padding: 0.4em 0.7em;
+    }
+}
