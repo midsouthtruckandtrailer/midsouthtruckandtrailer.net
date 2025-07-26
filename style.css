@@ -313,9 +313,10 @@ a:hover {
     padding: 1rem;
   }
 
+  /* Shrink the logo height on small screens */
   .site-header .logo {
-    height: 120px;                  /* Keep your larger logo size */
-    margin-bottom: 0.5rem;          /* Add space below the logo */
+    height: 80px;      /* adjust this value as needed */
+    margin-bottom: 0.5rem;
   }
 
   .site-nav {
