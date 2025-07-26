@@ -14,7 +14,13 @@
       SMTP credentials) and replace the placeholder below.
     -->
     <!-- Include SMTP.js library -->
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
+      <!--
+      This revised yard‑check page no longer relies on EmailJS/Zoho or SMTP.js.
+      Instead, it posts the form data to a Google Apps Script (provided by
+      the user) which composes and sends the email server‑side via Gmail.
+      The Apps Script URL is configured in the JavaScript at the bottom of
+      this file.  No SMTP credentials are exposed in the client.
+    -->
     <style>
       body {
         font-family: sans-serif;
@@ -245,26 +251,27 @@
             `Timestamp: ${timestamp}\n` +
             `Location: ${location}\n\n` +
             `${trailerSummary}`;
-
-          // Send email via SMTP.js; replace <YOUR_SECURE_TOKEN> with a real
-          // token generated on smtpjs.com for darrellwnicholas@gmail.com.
-          Email.send({
-            SecureToken: "4ebda59a-afe9-422c-b910-58098fc5c445",
-            To: "jody@midsouthtruckandtrailer.net",
-            From: "darrellwnicholas@gmail.com",
-            Subject: subject,
-            Body: body.replace(/\n/g, "<br>")
+          // Send the yard check details to the Google Apps Script via a POST request.
+          const yardPayload = {
+            subject: subject,
+            message: body,
+            techName: techName,
+            timestamp: timestamp,
+            location: location,
+            trailerSummary: trailerSummary
+          };
+          fetch('https://script.google.com/macros/s/AKfycbxEzCQnM73av1bNkf99ocyx8EKIS6V96Lh0x6Lh2zTDsZtcI5eFYPfbpeL4HvBulKSn/exec', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(yardPayload)
           })
-            .then((message) => {
-              if (message === "OK") {
-                alert("All yard checks submitted successfully!");
-                // Reset form and trailer entries
-                yardCheckForm.reset();
-                trailerEntries = [];
-                location.reload();
-              } else {
-                alert("Email error: " + message);
-              }
+             .then((response) => response.text())
+            .then((text) => {
+              alert('All yard checks submitted successfully!');
+              // Reset form and entries
+              yardCheckForm.reset();
+              trailerEntries = [];
+              location.reload();
             })
             .catch((error) => {
               alert("Error submitting form: " + error);
