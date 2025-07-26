@@ -1,217 +1,276 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yard Check Form - Official SDK</title>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <style>
-    body { font-family: sans-serif; padding: 1rem; }
-    label { display: block; margin-top: 1rem; }
-    input, select, textarea, button { width: 100%; padding: 0.5rem; margin-top: 0.25rem; }
-    .readonly { background-color: #f0f0f0; }
-    #yardCheckForm { display: none; }
-  </style>
-</head>
-<body>
-  <h2>Technician Login</h2>
-  <form id="pinForm">
-    <label>Enter 4-Digit PIN:
-      <input type="text" id="pin" pattern="\d{4}" required />
-    </label>
-    <button type="submit">Continue</button>
-  </form>
-
-  <div id="greeting" style="font-weight: bold; margin-top: 1rem;"></div>
-
-  <form id="yardCheckForm">
-    <input type="hidden" name="tech_name" id="tech_name" />
-
-    <label>Trailer Number (numbers only):
-      <input type="tel" id="trailer_number" inputmode="numeric" pattern="\d+" required />
-    </label>
-
-    <label>Washed Out?
-      <select id="washed_out">
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-      </select>
-    </label>
-
-    <label>Greased?
-      <select id="greased">
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-      </select>
-    </label>
-
-    <label>Brake Adjustment Needed?
-      <select id="brake_adj">
-        <option value="No">No</option>
-        <option value="Yes">Yes</option>
-      </select>
-    </label>
-
-    <label>Fuel Level:
-      <select id="fuel_level">
-        <option value="Empty">Empty</option>
-        <option value="1/4">1/4</option>
-        <option value="1/2">1/2</option>
-        <option value="3/4">3/4</option>
-        <option value="Full">Full</option>
-      </select>
-    </label>
-
-    <label>Load Status:
-      <select id="load_status">
-        <option value="Loaded">Loaded</option>
-        <option value="Empty">Empty</option>
-      </select>
-    </label>
-
-    <label>Reefer Temperature (°F):
-      <input type="text" id="temperature" placeholder="e.g., 34" />
-    </label>
-
-    <label>Optional Notes:
-      <textarea id="notes" rows="3" placeholder="e.g., Flat tire on passenger side..."></textarea>
-    </label>
-
-    <label>Timestamp:
-      <input type="text" id="timestamp" readonly class="readonly" />
-    </label>
-
-    <label>GPS Location (Lat, Lon):
-      <input type="text" id="location" readonly class="readonly" />
-    </label>
-
-    <button type="button" id="addTrailer">Add Another Trailer</button>
-    <button type="submit">Submit All</button>
-  </form>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      emailjs.init("mbY5vWj9jWkqzabP6");
-
-      const pinMap = {
-        "6969": { name: "Jody", greeting: "Hey Jody, Darrell needs a raise, just sayin - ChatGPT" },
-        "0125": { name: "Debra", greeting: "Hello Debra" },
-        "2525": { name: "Corey", greeting: "Hello Corey" },
-        "1900": { name: "Darrell", greeting: "Hello Darrell" }
-      };
-
-      let trailerEntries = [];
-
-      const pinForm = document.getElementById("pinForm");
-      const pinInput = document.getElementById("pin");
-      const yardCheckForm = document.getElementById("yardCheckForm");
-      const techNameInput = document.getElementById("tech_name");
-      const greetingDiv = document.getElementById("greeting");
-      const timestampField = document.getElementById("timestamp");
-      const locationField = document.getElementById("location");
-
-      const now = new Date();
-      timestampField.value = now.toLocaleString();
-
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            locationField.value = `${position.coords.latitude}, ${position.coords.longitude}`;
-          },
-          () => {
-            locationField.value = "Permission denied or not available.";
-          }
-        );
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yard Check Form – Mid‑South Truck &amp; Trailer Service</title>
+    <!--
+      This revised yard‑check page removes the dependency on EmailJS/Zoho and
+      instead sends the completed yard check from Darrell's Gmail account using
+      SMTP.js.  SMTP.js is a client‑side library that wraps SMTP with a
+      secure token so that your SMTP credentials aren’t exposed.  To make
+      this work you need to generate a SecureToken tied to
+      darrellwnicholas@gmail.com via https://smtpjs.com/ (Encrypt your
+      SMTP credentials) and replace the placeholder below.
+    -->
+    <!-- Include SMTP.js library -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 1rem;
+        max-width: 600px;
+        margin: 0 auto;
       }
+      label {
+        display: block;
+        margin-top: 1rem;
+      }
+      input,
+      select,
+      textarea,
+      button {
+        width: 100%;
+        padding: 0.5rem;
+        margin-top: 0.25rem;
+        box-sizing: border-box;
+      }
+      .readonly {
+        background-color: #f0f0f0;
+      }
+      #yardCheckForm {
+        display: none;
+        margin-top: 1rem;
+      }
+      #greeting {
+        font-weight: bold;
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Technician Login</h2>
+    <form id="pinForm">
+      <label>
+        Enter 4‑Digit PIN:
+        <input type="text" id="pin" pattern="\d{4}" required />
+      </label>
+      <button type="submit">Continue</button>
+    </form>
 
-      pinForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const pin = pinInput.value;
-        if (pinMap[pin]) {
-          techNameInput.value = pinMap[pin].name;
-          greetingDiv.textContent = pinMap[pin].greeting;
-          yardCheckForm.style.display = "block";
-          pinForm.style.display = "none";
-        } else {
-          greetingDiv.textContent = "PIN not recognized.";
+    <div id="greeting"></div>
+
+    <form id="yardCheckForm">
+      <!-- Hidden technician name pulled from the PIN map -->
+      <input type="hidden" name="tech_name" id="tech_name" />
+      <label>
+        Trailer Number (numbers only):
+        <input type="tel" id="trailer_number" inputmode="numeric" pattern="\d+" required />
+      </label>
+      <label>
+        Washed Out?
+        <select id="washed_out">
+          <option value="?">?</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+      <label>
+        Greased?
+        <select id="greased">
+          <option value="?">?</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </label>
+      <label>
+        Brake Adjustment Needed?
+        <select id="brake_adj">
+          <option value="?">?</option>
+          <option value="No">No</option>
+          <option value="Yes">Yes</option>
+        </select>
+      </label>
+      <label>
+        Fuel Level:
+        <select id="fuel_level">
+          <option value="?">?</option>
+          <option value="Empty">Empty</option>
+          <option value="1/4">1/4</option>
+          <option value="1/2">1/2</option>
+          <option value="3/4">3/4</option>
+          <option value="Full">Full</option>
+        </select>
+      </label>
+      <label>
+        Load Status:
+        <select id="load_status">
+          <option value="?">?</option>
+          <option value="Loaded">Loaded</option>
+          <option value="Empty">Empty</option>
+        </select>
+      </label>
+      <label>
+        Reefer Temperature (°F):
+        <input type="text" id="temperature" placeholder="e.g., 34" />
+      </label>
+      <label>
+        Optional Notes:
+        <textarea id="notes" rows="3" placeholder="e.g., Flat tire on passenger side..."></textarea>
+      </label>
+      <label>
+        Timestamp:
+        <input type="text" id="timestamp" readonly class="readonly" />
+      </label>
+      <label>
+        GPS Location (Lat, Lon):
+        <input type="text" id="location" readonly class="readonly" />
+      </label>
+      <button type="button" id="addTrailer">Add Another Trailer</button>
+      <button type="submit">Submit All</button>
+    </form>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mapping of PINs to technician names and fun greetings
+        const pinMap = {
+          "6969": { name: "Jody", greeting: "Hey Jody, Darrell needs a raise, just sayin – ChatGPT" },
+          "0125": { name: "Debra", greeting: "Hello Debra" },
+          "2525": { name: "Corey", greeting: "Hello Corey" },
+          "1900": { name: "Darrell", greeting: "Hello Darrell" }
+        };
+
+        let trailerEntries = [];
+        const pinForm = document.getElementById("pinForm");
+        const pinInput = document.getElementById("pin");
+        const yardCheckForm = document.getElementById("yardCheckForm");
+        const techNameInput = document.getElementById("tech_name");
+        const greetingDiv = document.getElementById("greeting");
+        const timestampField = document.getElementById("timestamp");
+        const locationField = document.getElementById("location");
+
+        // Prepopulate timestamp and attempt to get geolocation
+        const now = new Date();
+        timestampField.value = now.toLocaleString();
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (position) => {
+              locationField.value = `${position.coords.latitude}, ${position.coords.longitude}`;
+            },
+            () => {
+              locationField.value = "Permission denied or not available.";
+            }
+          );
         }
+
+        // Handle PIN submission to reveal the form
+        pinForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const pin = pinInput.value;
+          if (pinMap[pin]) {
+            techNameInput.value = pinMap[pin].name;
+            greetingDiv.textContent = pinMap[pin].greeting;
+            yardCheckForm.style.display = "block";
+            pinForm.style.display = "none";
+          } else {
+            greetingDiv.textContent = "PIN not recognized.";
+          }
+        });
+
+        // Add another trailer entry to the list
+        document.getElementById("addTrailer").addEventListener("click", () => {
+          const entry = {
+            trailer_number: document.getElementById("trailer_number").value,
+            washed_out: document.getElementById("washed_out").value,
+            greased: document.getElementById("greased").value,
+            brake_adj: document.getElementById("brake_adj").value,
+            fuel_level: document.getElementById("fuel_level").value,
+            load_status: document.getElementById("load_status").value,
+            temperature: document.getElementById("temperature").value,
+            notes: document.getElementById("notes").value
+          };
+          trailerEntries.push(entry);
+          // Reset fields for next entry
+          document.getElementById("trailer_number").value = "";
+          document.getElementById("washed_out").value = "?";
+          document.getElementById("greased").value = "?";
+          document.getElementById("brake_adj").value = "?";
+          document.getElementById("fuel_level").value = "?";
+          document.getElementById("load_status").value = "?";
+          document.getElementById("temperature").value = "";
+          document.getElementById("notes").value = "";
+          alert("Trailer added. Enter the next or submit all.");
+        });
+
+        // Submit all trailer entries via Gmail using SMTP.js
+        yardCheckForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          // Add final entry if fields aren’t empty
+          const finalEntry = {
+            trailer_number: document.getElementById("trailer_number").value,
+            washed_out: document.getElementById("washed_out").value,
+            greased: document.getElementById("greased").value,
+            brake_adj: document.getElementById("brake_adj").value,
+            fuel_level: document.getElementById("fuel_level").value,
+            load_status: document.getElementById("load_status").value,
+            temperature: document.getElementById("temperature").value,
+            notes: document.getElementById("notes").value
+          };
+          if (finalEntry.trailer_number !== "") {
+            trailerEntries.push(finalEntry);
+          }
+
+          // Build a readable summary for the email body
+          const trailerSummary = trailerEntries
+            .map((entry, index) => {
+              return `Trailer ${index + 1}:\n` +
+                `  • Number: ${entry.trailer_number}\n` +
+                `  • Washed Out: ${entry.washed_out}\n` +
+                `  • Greased: ${entry.greased}\n` +
+                `  • Brake Adjustment: ${entry.brake_adj}\n` +
+                `  • Fuel Level: ${entry.fuel_level}\n` +
+                `  • Load Status: ${entry.load_status}\n` +
+                `  • Temperature: ${entry.temperature}\n` +
+                `  • Notes: ${entry.notes || 'None'}`;
+            })
+            .join("\n\n");
+
+          const techName = techNameInput.value;
+          const timestamp = timestampField.value;
+          const location = locationField.value;
+          // Compose subject and body (plain text)
+          const subject = `Yard Check – ${techName} – ${new Date().toLocaleDateString()}`;
+          const body =
+            `Technician: ${techName}\n` +
+            `Timestamp: ${timestamp}\n` +
+            `Location: ${location}\n\n` +
+            `${trailerSummary}`;
+
+          // Send email via SMTP.js; replace <YOUR_SECURE_TOKEN> with a real
+          // token generated on smtpjs.com for darrellwnicholas@gmail.com.
+          Email.send({
+            SecureToken: "4ebda59a-afe9-422c-b910-58098fc5c445",
+            To: "jody@midsouthtruckandtrailer.net",
+            From: "darrellwnicholas@gmail.com",
+            Subject: subject,
+            Body: body.replace(/\n/g, "<br>")
+          })
+            .then((message) => {
+              if (message === "OK") {
+                alert("All yard checks submitted successfully!");
+                // Reset form and trailer entries
+                yardCheckForm.reset();
+                trailerEntries = [];
+                location.reload();
+              } else {
+                alert("Email error: " + message);
+              }
+            })
+            .catch((error) => {
+              alert("Error submitting form: " + error);
+            });
+        });
       });
-
-      document.getElementById("addTrailer").addEventListener("click", () => {
-        const entry = {
-          trailer_number: document.getElementById("trailer_number").value,
-          washed_out: document.getElementById("washed_out").value,
-          greased: document.getElementById("greased").value,
-          brake_adj: document.getElementById("brake_adj").value,
-          fuel_level: document.getElementById("fuel_level").value,
-          load_status: document.getElementById("load_status").value,
-          temperature: document.getElementById("temperature").value,
-          notes: document.getElementById("notes").value
-        };
-
-        trailerEntries.push(entry);
-
-        document.getElementById("trailer_number").value = "";
-        document.getElementById("washed_out").value = "Yes";
-        document.getElementById("greased").value = "Yes";
-        document.getElementById("brake_adj").value = "No";
-        document.getElementById("fuel_level").value = "Empty";
-        document.getElementById("load_status").value = "Loaded";
-        document.getElementById("temperature").value = "";
-        document.getElementById("notes").value = "";
-
-        alert("Trailer added. Enter the next or submit all.");
-      });
-
-      yardCheckForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const finalEntry = {
-          trailer_number: document.getElementById("trailer_number").value,
-          washed_out: document.getElementById("washed_out").value,
-          greased: document.getElementById("greased").value,
-          brake_adj: document.getElementById("brake_adj").value,
-          fuel_level: document.getElementById("fuel_level").value,
-          load_status: document.getElementById("load_status").value,
-          temperature: document.getElementById("temperature").value,
-          notes: document.getElementById("notes").value
-        };
-
-        if (finalEntry.trailer_number !== "") {
-          trailerEntries.push(finalEntry);
-        }
-
-        const trailerSummary = trailerEntries.map((entry, index) => {
-          return `Trailer ${index + 1}:
-- Number: ${entry.trailer_number}
-- Washed Out: ${entry.washed_out}
-- Greased: ${entry.greased}
-- Brake Adjustment: ${entry.brake_adj}
-- Fuel Level: ${entry.fuel_level}
-- Load Status: ${entry.load_status}
-- Temperature: ${entry.temperature}
-- Notes: ${entry.notes || 'None'}`;
-        }).join("\n\n");
-
-        const emailParams = {
-          tech_name: techNameInput.value,
-          timestamp: timestampField.value,
-          location: locationField.value,
-          all_trailers: trailerSummary
-        };
-
-        emailjs.send("service_teoakrg", "template_3o0wfpn", emailParams)
-          .then(() => {
-            alert("All yard checks submitted successfully!");
-            yardCheckForm.reset();
-            trailerEntries = [];
-            location.reload();
-          }, (error) => {
-            alert("Error submitting form: " + error.text);
-          });
-      });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

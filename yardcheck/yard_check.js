@@ -1,4 +1,10 @@
-// yard_check.js
+// revamped_yard_check.js
+// This script updates the original yard_check.js to send the yard check summary
+// via Darrell's Gmail account using SMTP.js instead of the Zoho mail API.
+// To use this script, include the SMTP.js library in your HTML:
+//   <script src="https://smtpjs.com/v3/smtp.js"></script>
+// and replace <YOUR_SECURE_TOKEN> below with a secure token generated on
+// smtpjs.com for your Gmail account.
 
 let userName = '';
 let userEmail = '';
@@ -16,7 +22,6 @@ function verifyPin() {
     alert('Invalid PIN');
     return;
   }
-
   document.getElementById('username').textContent = userName;
   document.getElementById('login-section').classList.add('hidden');
   document.getElementById('form-section').classList.remove('hidden');
@@ -27,7 +32,6 @@ function updateLocationOptions() {
   const subLocation = document.getElementById('sub-location');
   const group = document.getElementById('sub-location-group');
   subLocation.innerHTML = '';
-
   if (yard === 'Pocahontas') {
     subLocation.innerHTML = '<option value="Peco in Pocahontas">Peco in Pocahontas</option>';
     group.classList.remove('hidden');
@@ -56,20 +60,16 @@ function submitTrailerEntry() {
     notes: document.getElementById('notes').value,
     timestamp: new Date().toLocaleString()
   };
-
-  const summary = `
-    <strong>Name:</strong> ${entry.name}<br>
-    <strong>Location:</strong> ${entry.location} - ${entry.sublocation}<br>
-    <strong>Trailer:</strong> ${entry.trailer}<br>
-    <strong>Status:</strong> ${entry.status}<br>
-    <strong>Fuel:</strong> ${entry.fuel}<br>
-    <strong>Temp:</strong> ${entry.temp}&deg;F<br>
-    <strong>Washout:</strong> ${entry.washout}<br>
-    <strong>Notes:</strong> ${entry.notes}<br>
-    <strong>Time:</strong> ${entry.timestamp}
-  `;
-
-  document.getElementById('entry-summary').innerHTML = summary;
+  const summary = `\nName: ${entry.name}\n` +
+    `Location: ${entry.location} - ${entry.sublocation}\n` +
+    `Trailer: ${entry.trailer}\n` +
+    `Status: ${entry.status}\n` +
+    `Fuel: ${entry.fuel}\n` +
+    `Temp: ${entry.temp}°F\n` +
+    `Washout: ${entry.washout}\n` +
+    `Notes: ${entry.notes}\n` +
+    `Time: ${entry.timestamp}`;
+  document.getElementById('entry-summary').innerHTML = summary.replace(/\n/g, '<br>');
   document.getElementById('form-section').classList.add('hidden');
   document.getElementById('confirmation-section').classList.remove('hidden');
   window.currentEntry = entry;
@@ -97,26 +97,28 @@ function handleMore(more) {
 }
 
 function sendCopy(wantsCopy) {
-  const compiled = entries.map(e => `Trailer: ${e.trailer}\nLocation: ${e.location} - ${e.sublocation}\nFuel: ${e.fuel}\nTemp: ${e.temp}\nWashout: ${e.washout}\nNotes: ${e.notes}\nTime: ${e.timestamp}\n---`).join('\n');
-  const payload = {
-    to: ['jody@midsouthtruckandtrailer.net'],
-    cc: wantsCopy ? [userEmail] : [],
-    subject: `EOS Yard Check - ${new Date().toLocaleDateString()}`,
-    content: compiled
-  };
-
-  fetch('https://api.zohoapis.com/mail/v1/messages', {
-    method: 'POST',
-    headers: {
-      Authorization: `Zoho-oauthtoken ${window.ZOHO_ACCESS_TOKEN}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(payload)
-  })
-    .then(res => {
-      if (!res.ok) throw new Error('Failed to send email');
-      return res.json();
-    })
-    .then(() => alert('Yard check sent successfully!'))
-    .catch(err => alert(`Error: ${err.message}`));
+  // Compile all entries into a single body string
+  const compiled = entries.map(e =>
+    `Trailer: ${e.trailer}\nLocation: ${e.location} - ${e.sublocation}\nFuel: ${e.fuel}\nTemp: ${e.temp}\nWashout: ${e.washout}\nNotes: ${e.notes}\nTime: ${e.timestamp}\n---`)
+    .join('\n');
+  // Recipients remain the same as original: send to Jody; cc technician if requested
+  const toRecipients = 'jody@midsouthtruckandtrailer.net';
+  const devRecipient = 'darrell@midsouthtruckandtrailer.net';
+  const ccRecipients = wantsCopy ? userEmail : '';
+  const subject = `EOS Yard Check - ${new Date().toLocaleDateString()}`;
+  // Send email via SMTP.js
+  Email.send({
+    SecureToken: '4ebda59a-afe9-422c-b910-58098fc5c445',
+    To: toRecipients,devRecipient,
+    Cc: ccRecipients,
+    From: 'darrellwnicholas@gmail.com',
+    Subject: subject,
+    Body: compiled.replace(/\n/g, '<br>')
+  }).then((message) => {
+    if (message === 'OK') {
+      alert('Yard check sent successfully!');
+    } else {
+      alert('Error: ' + message);
+    }
+  }).catch((err) => alert('Error: ' + err));
 }
