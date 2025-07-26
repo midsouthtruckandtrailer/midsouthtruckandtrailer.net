@@ -1,50 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Mid-South Truck & Trailer Service | Hoxie, AR</title>
-  <meta name="description" content="Truck wash, trailer washout, and truck/trailer repairs in Northeast Arkansas. Fast, reliable, and local.">
-  <meta property="og:title" content="Mid-South Truck & Trailer Service">
-  <meta property="og:description" content="Northeast Arkansas's trusted mobile truck and trailer wash, washout, and repair specialists.">
-  <meta property="og:image" content="images/WorkVan.jpg">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mid‑South Truck &amp; Trailer Service</title>
+    <!-- Custom stylesheet for the revamped site -->
+    <link rel="stylesheet" href="style.css">
+    <!-- SMTP.js for contact form email sending (replace token in script below) -->
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a href="#">
+          <img class="logo" src="MidSouthOfficialLogo2.png" alt="Mid‑South Truck &amp; Trailer Service Logo" />
+        </a>
+        <nav class="site-nav">
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#contact">Contact</a>
+          <a href="yardcheck/index.html">Yard Check</a>
+        </nav>
+      </div>
+    </header>
 
-  <div class="header">
-    <a href="index.html"><img class="logo" src="images/logo.png" alt="Mid-South Truck & Trailer Service Logo" style="width: 220px; height: auto;"></a>
-    <nav class="nav">
-      <a href="index.html" class="">Home</a>
-      <a href="about.html" class="">About</a>
-      <a href="services.html" class="">Services</a>
-      <a href="pricing.html" class="">Pricing</a>
-      <a href="contact.html" class="active">Contact</a>
-    </nav>
-  </div>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Mid‑South Truck &amp; Trailer Service</h1>
+        <p>Your fleet partner for washouts, repairs &amp; inspections across Northeast Arkansas</p>
+        <a class="cta-btn" href="#contact">Request Service</a>
+      </div>
+    </section>
 
-<div class="hero">
-  <img src="images/WorkVan.jpg" alt="Mid-South Truck and Trailer Service van at night on a job.">
-  <h1>Mid-South Truck &amp; Trailer Service</h1>
-  <p>Fast, reliable, and professional mobile truck wash, trailer washout, and on-site repair serving Northeast Arkansas and the surrounding area.</p>
-  <a class="cta-btn" href="contact.html">Request Service</a>
-</div>
-<div class="section">
-  <h2>What Do We Do?</h2>
-  <p>We keep your fleet on the road—clean, compliant, and ready for the next load! Our expert team provides:</p>
-  <ul>
-    <li>Complete truck & trailer washouts</li>
-    <li>Mobile truck and trailer repair</li>
-    <li>Annual DOT & safety inspections</li>
-    <li>Brake jobs, grease jobs, and more</li>
-  </ul>
-  <p>Need emergency service or regular scheduled maintenance? <strong>We come to you, day or night.</strong></p>
-</div>
+    <section id="about" class="about-section section">
+      <h2>About Us</h2>
+      <p><strong>Mid‑South Truck &amp; Trailer Service</strong> is Northeast Arkansas’s trusted team for keeping trucks and trailers road‑ready, rain or shine. Founded by people who know what it’s like to keep a fleet running, we pride ourselves on old‑school service with new‑school tech.</p>
+      <p>We’re local, family‑owned, and we treat every rig like our own—because we’ve been there ourselves. Our customers include major fleets, independent operators, and everyone in between.</p>
+      <ul>
+        <li>Decades of combined experience</li>
+        <li>Licensed, insured and DOT‑compliant</li>
+        <li>Flexible scheduling and emergency callouts</li>
+      </ul>
+      <p>From routine washouts to “get me rolling at 2 AM” repairs, we’re the ones other shops call when it matters.</p>
+    </section>
 
-<div class="footer">
-  &copy; 2025 Mid-South Truck & Trailer Service. Designed by OpenAI's ChatGPT-4o.<br>
-  406 SW Texas, Hoxie, AR 72433 &bull; (870) 637-2093 &bull; <a href="mailto:info@midsouthtruckandtrailer.net" style="color:#aef6f7;">info@midsouthtruckandtrailer.net</a>
-</div>
+    <section id="services" class="services-section section">
+      <h2>Our Services</h2>
+      <div class="services-grid">
+        <div class="service-item">
+          <h3>Truck &amp; Trailer Washouts</h3>
+          <p>On‑site, fast and thorough. Perfect for poultry, produce and refrigerated trailers.</p>
+        </div>
+        <div class="service-item">
+          <h3>Mobile Repairs</h3>
+          <p>From brakes and lighting to full axle service and inspections—we come to you.</p>
+        </div>
+        <div class="service-item">
+          <h3>Annual DOT Inspections</h3>
+          <p>Keep your fleet legal and safe, all done at your yard or dock.</p>
+        </div>
+        <div class="service-item">
+          <h3>Yard Checks &amp; Scheduled Maintenance</h3>
+          <p>We work with your dispatch or operations team for routine checks and recurring service.</p>
+        </div>
+        <div class="service-item">
+          <h3>Emergency Roadside Assistance</h3>
+          <p>Stuck at 3 AM? We’ve got you—call us anytime for roadside help.</p>
+        </div>
+        <div class="service-item">
+          <h3>Custom Services</h3>
+          <p>If it’s on a truck or trailer, ask us. If we can’t fix it, we’ll find who can.</p>
+        </div>
+      </div>
+    </section>
 
-</body>
+    <section id="pricing" class="pricing-section section">
+      <h2>Pricing</h2>
+      <table>
+        <tr><th>Service</th><th>Price</th></tr>
+        <tr><td>Trailer Washout</td><td>$55 per trailer</td></tr>
+        <tr><td>Truck and Trailer Wash</td><td>$135 exterior only</td></tr>
+        <tr><td>Grease Job</td><td>$40 per trailer</td></tr>
+        <tr><td>Brake Adjustment</td><td>$40 per trailer</td></tr>
+        <tr><td>Annual DOT Inspection</td><td>$45 per unit</td></tr>
+        <tr><td>Mobile Repair (labor)</td><td>$175/hr (1 hour minimum)</td></tr>
+        <tr><td>Emergency Roadside Call</td><td>$200 base, plus repairs</td></tr>
+      </table>
+      <p style="text-align:center; margin-top:1rem; font-style:italic;">All prices are subject to change—contact us for the latest rates or special fleet pricing!</p>
+    </section>
+
+    <section id="contact" class="contact-section section">
+      <h2>Contact Us</h2>
+      <div class="contact-content">
+        <div class="contact-info">
+          <p>
+            <strong>Mid‑South Truck &amp; Trailer Service</strong><br />
+            406 SW Texas, Hoxie, AR 72433<br />
+            <a href="tel:+18706372093">(870) 637‑2093</a> &nbsp;|&nbsp; <a href="tel:+18708107467">(870) 810‑7467</a><br />
+            <a href="mailto:jody@midsouthtruckandtrailer.net">jody@midsouthtruckandtrailer.net</a>
+          </p>
+          <p><a href="https://maps.google.com/?q=406+SW+Texas+Hoxie+AR+72433" target="_blank">View on Google Maps</a></p>
+        </div>
+        <form id="contact-form">
+          <label for="contact-name">Name</label>
+          <input id="contact-name" name="name" required />
+          <label for="contact-email">Email</label>
+          <input id="contact-email" name="email" type="email" required />
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="4" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      &copy; 2025 Mid‑South Truck &amp; Trailer Service. All rights reserved.<br />
+      406 SW Texas, Hoxie, AR 72433 • (870) 637‑2093
+    </footer>
+
+    <script>
+      // Contact form submission using SMTP.js.
+      document.getElementById('contact-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('contact-name').value;
+        const email = document.getElementById('contact-email').value;
+        const message = document.getElementById('contact-message').value;
+        const body = `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`;
+        Email.send({
+          SecureToken: '4ebda59a-afe9-422c-b910-58098fc5c445',
+          To: 'darrell@midsouthtruckandtrailer.net',
+          From: 'darrellwnicholas@gmail.com',
+          Subject: 'Website Contact Form',
+          Body: body.replace(/\n/g, '<br>')
+        }).then(function (msg) {
+          if (msg === 'OK') {
+            alert('Thanks for reaching out! We will contact you soon.');
+            document.getElementById('contact-form').reset();
+          } else {
+            alert('Error sending message: ' + msg);
+          }
+        });
+      });
+    </script>
+  </body>
 </html>

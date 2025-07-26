@@ -1,0 +1,337 @@
+/*
+  Revamped stylesheet for the Mid‑South Truck & Trailer Service website.
+  This file defines a modern, responsive layout with a clean color palette
+  and polished typography.  The design replaces the old work‑van hero image
+  with a subtle logo watermark and gradient overlay so the headline text
+  remains readable.  Sections are separated by generous spacing, and
+  components such as the services grid, pricing table and contact form
+  are styled consistently to tie the site together.
+*/
+
+/* Root color variables allow easy customization of the site palette. */
+:root {
+  --primary-color: #1a2238;        /* deep navy used for headers and footer */
+  --accent-color: #ea5c2b;         /* warm orange for call‑to‑action elements */
+  --background-color: #f5f7fa;     /* light grey page background */
+  --section-background: #ffffff;   /* white panels for contrast */
+  --text-color: #23272a;           /* dark charcoal for primary text */
+}
+
+/* Global resets */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.6;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: #c94a21; /* slightly darker on hover */
+}
+
+/* Header and navigation */
+.site-header {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: var(--section-background);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+.site-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+}
+.site-header .logo {
+  height: 120px;
+  width: auto;
+  margin-right: 4rem;
+}
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-left: 4rem;
+}
+.site-nav a {
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding-bottom: 0.2rem;
+  border-bottom: 2px solid transparent;
+}
+.site-nav a:hover {
+  color: var(--accent-color);
+  border-bottom-color: var(--accent-color);
+}
+
+/* Hero section */
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 75vh;
+  min-height: 480px;
+  color: #ffffff;
+  overflow: hidden;
+}
+/* Watermark logo background */
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("MidSouthOfficialLogo.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.2; /* faint watermark */
+  z-index: 1;
+}
+/* Gradient overlay for readability */
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(205, 215, 241, 0.7) 0%,
+    rgba(8, 13, 26, 0.85) 100%
+  );
+  z-index: 2;
+}
+.hero-content {
+  position: relative;
+  z-index: 3;
+  max-width: 700px;
+  padding: 1rem 2rem;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+.hero p {
+  font-size: 1.2rem;
+  margin: 0 0 2rem;
+}
+.cta-btn {
+  display: inline-block;
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--accent-color);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s, transform 0.2s;
+}
+.cta-btn:hover {
+  background-color: #c94a21;
+  transform: translateY(-2px);
+}
+
+/* Generic section styling */
+.section {
+  padding: 4rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  scroll-margin-top: 120px;
+}
+.section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  text-align: center;
+}
+.section p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+.section ul {
+  margin: 1rem auto;
+  padding-left: 1.5rem;
+  max-width: 800px;
+  list-style-type: disc;
+}
+.section ul li {
+  margin-bottom: 0.5rem;
+}
+
+/* Services grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.service-item {
+  background-color: var(--section-background);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.service-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+.service-item h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+  font-size: 1.25rem;
+}
+
+/* Pricing table */
+.pricing-section table {
+  width: 100%;
+  max-width: 700px;
+  margin: 2rem auto 0;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+.pricing-section th,
+.pricing-section td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e0e4ea;
+  text-align: left;
+}
+.pricing-section th {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  font-weight: 600;
+}
+.pricing-section tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+.pricing-section tr:last-child td {
+  border-bottom: none;
+}
+
+/* Contact section */
+.contact-section {
+  background-color: var(--section-background);
+  padding: 4rem 1.5rem;
+}
+.contact-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+.contact-info {
+  flex: 1 1 280px;
+  font-size: 1rem;
+}
+.contact-info a {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+.contact-info a:hover {
+  color: #c94a21;
+}
+#contact-form {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+}
+#contact-form label {
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+#contact-form input,
+#contact-form textarea {
+  padding: 0.7rem 0.9rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+#contact-form textarea {
+  resize: vertical;
+}
+#contact-form button {
+  padding: 0.8rem 1.2rem;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#contact-form button:hover {
+  background-color: #c94a21;
+}
+
+/* Footer */
+.site-footer {
+  background-color: var(--primary-color);
+  color: #ffffff;
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin-top: 4rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .hero p {
+    font-size: 1rem;
+  }
+  .site-nav {
+    gap: 0.75rem;
+  }
+  .site-nav a {
+    font-size: 0.8rem;
+  }
+  .section {
+    padding: 3rem 1rem;
+  }
+  .services-grid {
+    gap: 1rem;
+  }
+  .contact-content {
+    flex-direction: column;
+  }
+  #contact-form,
+  .contact-info {
+    flex-basis: 100%;
+  }
+  #contact-form button {
+    width: 100%;
+  }
+}
