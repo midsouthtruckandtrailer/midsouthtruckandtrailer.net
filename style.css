@@ -305,33 +305,28 @@ a:hover {
 }
 
 /* Responsive adjustments */
+/* Mobile header adjustments: stack the nav beneath the logo */
 @media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
+  .site-header .container {
+    flex-direction: column;         /* Stack logo and nav */
+    align-items: flex-start;
+    padding: 1rem;
   }
-  .hero p {
-    font-size: 1rem;
+
+  .site-header .logo {
+    height: 120px;                  /* Keep your larger logo size */
+    margin-bottom: 0.5rem;          /* Add space below the logo */
   }
+
   .site-nav {
-    gap: 0.75rem;
-  }
-  .site-nav a {
-    font-size: 0.8rem;
-  }
-  .section {
-    padding: 3rem 1rem;
-  }
-  .services-grid {
-    gap: 1rem;
-  }
-  .contact-content {
-    flex-direction: column;
-  }
-  #contact-form,
-  .contact-info {
-    flex-basis: 100%;
-  }
-  #contact-form button {
+    flex-direction: column;         /* Stack nav links vertically */
+    align-items: flex-start;
     width: 100%;
+    gap: 0.5rem;
+  }
+
+  .site-nav a {
+    font-size: 0.9rem;              /* Slightly reduce link size */
+    padding: 0.25rem 0;
   }
 }
