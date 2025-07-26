@@ -252,19 +252,32 @@
             `Location: ${location}\n\n` +
             `${trailerSummary}`;
           // Send the yard check details to the Google Apps Script via a POST request.
-          const yardPayload = {
-            subject: subject,
-            message: body,
-            techName: techName,
-            timestamp: timestamp,
-            location: location,
-            trailerSummary: trailerSummary
-          };
-          fetch('https://script.google.com/macros/s/AKfycbx30y58Hkjr0s5zpYfLgdPxd9EgRVsaWSyp4A_nz9y9_U3yUueooEO-2uLxfGTR2i1W/exec', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(yardPayload)
-          })
+          // Send the yard check details to the Google Apps Script via a POST request.
+// Encode data for form-style POST
+const formData = new URLSearchParams();
+formData.append("subject", subject);
+formData.append("name", techName);
+formData.append("email", "yardcheck@midsouthtruckandtrailer.net"); // placeholder sender
+formData.append("message", body);
+
+fetch('https://script.google.com/macros/s/AKfycbw-QzjafYY0tv8ylc_8umpkQt7AYn1NefOmsA_IhgWAMIQAbjZMk7frnTVeNFF8hGo/exec', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  body: formData
+})
+  .then((response) => response.text())
+  .then((text) => {
+    alert('All yard checks submitted successfully!');
+    yardCheckForm.reset();
+    trailerEntries = [];
+    location.reload();
+  })
+  .catch((error) => {
+    alert("Error submitting form: " + error);
+  });
+
              .then((response) => response.text())
             .then((text) => {
               alert('All yard checks submitted successfully!');
